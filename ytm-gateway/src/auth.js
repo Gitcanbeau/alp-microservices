@@ -1,8 +1,7 @@
 const Router = require('koa-router');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { addUser, findUser } = require('./user');
-const jwtAuth = require('./middlewares/jwtAuth');
+const { addUser, findUser } = require('./users');
 
 const router = new Router();
 const secretKey = 'your-secret-key'; // 请使用更安全的密钥，并将其存储在环境变量中
@@ -54,7 +53,5 @@ router.post('/login', async (ctx) => {
     const token = jwt.sign({ username: user.username }, secretKey, { expiresIn: '1h' });
     ctx.body = { message: 'Login successful', token };
 });
-
-router.use(jwtAuth); // 保护需要认证的路由
 
 module.exports = router;
