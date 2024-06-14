@@ -1,13 +1,14 @@
 syntax = "proto3";
 
 service ResourceService {
-    rpc MyMethod (MyRequest) returns (MyResponse);
+    rpc GetResource (ResourceRequest) returns (ResourceResponse);
 }
 
-message MyRequest {
-    string name = 1;
+message ResourceRequest {
+    string id = 1;
 }
 
-message MyResponse {
-    string message = 1;
+message ResourceResponse {
+    string data = 1;
 }
+

@@ -1,8 +1,10 @@
+// middlewares/jwtAuth.js
 const jwt = require('jsonwebtoken');
 require('dotenv').config(); // 再次确保加载环境变量
 const secretKey = process.env.JWT_SECRET;
 
 console.log('Loaded JWT secret key:', secretKey);
+
 
 const jwtAuthMiddleware = async (ctx, next) => {
 
@@ -33,6 +35,3 @@ const jwtAuthMiddleware = async (ctx, next) => {
 };
 
 module.exports = jwtAuthMiddleware;
-
-
-

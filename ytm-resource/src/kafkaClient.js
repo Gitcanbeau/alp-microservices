@@ -1,4 +1,3 @@
-// 导入 Kafka 相关模块
 const kafka = require('kafka-node');
 const Producer = kafka.Producer;
 const Consumer = kafka.Consumer;
@@ -28,5 +27,5 @@ consumer.on('error', function(err) {
     console.error('Kafka Consumer in ytm-resource error: ', err);
 });
 
-// 导出生产者和消费者实例
 module.exports = { producer, consumer };
+

@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
-const IndexLibrary = require('./models/index_library.js');
-const IndexPlaylist = require('./models/index_playlist.js');
-const user = require('./models/user.js');
-const IndexTrack = require('./models/index_track.js');
-const UserLibrary = require('./models/user_library.js');
+const IndexLibrary = require('../models/index_library.js');
+const IndexPlaylist = require('../models/index_playlist.js');
+const user = require('../models/user.js');
+const IndexTrack = require('../models/index_track.js');
+const UserLibrary = require('../models/user_library.js');
 
 // 获取所有歌曲列表
 async function getAllTracks(ctx) {

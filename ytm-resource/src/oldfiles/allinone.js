@@ -10,7 +10,7 @@ const router = new Router();
 // 连接 MongoDB
 mongoose.connect('mongodb://localhost/library', { useNewUrlParser: true, useUnifiedTopology: true });
 
-const IndexLibrary = require('./models/index_library');
+const IndexLibrary = require('../models/index_library');
 
 // 获取所有 tracks
 router.get('/tracks', async (ctx) => {

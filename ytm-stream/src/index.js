@@ -1,13 +1,15 @@
+require('dotenv').config(); // 加载环境变量，一定要最早导入。
 const Koa = require('koa');
 const router = require('./routes');
-const fetch = require('node-fetch'); // 确保你已经安装了 node-fetch 包
+const fetch = require('node-fetch');
+
 
 const app = new Koa();
 
 const registerService = async () => {
   const serviceInfo = {
     name: 'ytm-stream',
-    port: 35707,
+    port: process.env.PORT || 35707,
     auth: true,
     type: 'rest',
     listen: [
@@ -16,7 +18,7 @@ const registerService = async () => {
   };
 
   try {
-    const response = await fetch('http://localhost:3000/register', {
+    const response = await fetch('http://localhost:3000/register-service', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(serviceInfo),
@@ -39,3 +41,4 @@ app.listen(PORT, () => {
   console.log(`Stream Service is running on port ${PORT}`);
   registerService();
 });
+
