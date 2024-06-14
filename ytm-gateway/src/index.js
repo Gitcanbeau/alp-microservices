@@ -1,10 +1,10 @@
+require('dotenv').config();
 const Koa = require('koa');
 const mongoose = require('mongoose');
 const bodyParser = require('koa-bodyparser');
 // const router = require('./routes');
 const authRouter = require('./routes/apiRoutes');
 const registerRouter = require('./routes/serviceRegister'); // 添加这一行
-require('dotenv').config();
 
 const app = new Koa();
 
