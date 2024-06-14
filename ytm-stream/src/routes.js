@@ -1,5 +1,6 @@
 const Router = require('koa-router');
 const fs = require('fs');
+const path = require('path');
 const jwtAuthMiddleware = require('./middlewares/jwtAuth');
 
 const router = new Router();
@@ -14,7 +15,7 @@ router.get('/stream/:trackId', jwtAuthMiddleware, async (ctx) => {
     return;
   }
 
-  const filePath = `/audio/${trackId}.mp3`;
+  const filePath = path.join(__dirname, 'audio', `${trackId}.mp3`);
   if (fs.existsSync(filePath)) {
     ctx.set('Content-Type', 'audio/mpeg');
     ctx.body = fs.createReadStream(filePath);
@@ -25,3 +26,4 @@ router.get('/stream/:trackId', jwtAuthMiddleware, async (ctx) => {
 });
 
 module.exports = router;
+

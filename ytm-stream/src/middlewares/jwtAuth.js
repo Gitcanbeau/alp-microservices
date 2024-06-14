@@ -20,3 +20,4 @@ const jwtAuthMiddleware = async (ctx, next) => {
 };
 
 module.exports = jwtAuthMiddleware;
+

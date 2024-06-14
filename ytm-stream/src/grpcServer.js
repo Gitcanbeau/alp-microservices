@@ -1,6 +1,8 @@
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
-const packageDefinition = protoLoader.loadSync(__dirname + '/proto/service.proto', {
+const path = require('path');
+
+const packageDefinition = protoLoader.loadSync(path.join(__dirname, 'proto', 'service.proto'), {
     keepCase: true,
     longs: String,
     enums: String,
@@ -17,10 +19,15 @@ function myMethod(call, callback) {
 function startServer() {
     const server = new grpc.Server();
     server.addService(streamService.service, { myMethod: myMethod });
-    server.bindAsync('0.0.0.0:50053', grpc.ServerCredentials.createInsecure(), () => {
-        server.start();
-        console.log('gRPC server running on port 50053');
+    server.bindAsync('0.0.0.0:50053', grpc.ServerCredentials.createInsecure(), (err, port) => {
+        if (err) {
+            console.error('Failed to bind server:', err);
+        } else {
+            server.start();
+            console.log('gRPC server running on port 50053');
+        }
     });
 }
 
 startServer();
+

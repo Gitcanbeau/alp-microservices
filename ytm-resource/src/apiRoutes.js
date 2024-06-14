@@ -5,9 +5,9 @@ const router = new KoaRouter();
 
 // Import handlers for each API endpoint
 
-const libraryHandler = require('./handlers/libraryHandler');
-const trackHandler = require('./handlers/trackHandler');
+const albumHandler = require('./handlers/albumHandler');
 const playlistHandler = require('./handlers/playlistHandler');
+const trackHandler = require('./handlers/trackHandler');
 const userHandler = require('./handlers/userHandler');
 // Import any other handlers for additional APIs
 

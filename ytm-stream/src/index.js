@@ -1,5 +1,6 @@
 const Koa = require('koa');
 const router = require('./routes');
+const fetch = require('node-fetch'); // 确保你已经安装了 node-fetch 包
 
 const app = new Koa();
 
@@ -14,11 +15,19 @@ const registerService = async () => {
     ],
   };
 
-  await fetch('http://localhost:3000/register', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(serviceInfo),
-  });
+  try {
+    const response = await fetch('http://localhost:3000/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(serviceInfo),
+    });
+    if (!response.ok) {
+      throw new Error('Failed to register service');
+    }
+    console.log('Service registered successfully');
+  } catch (error) {
+    console.error('Error registering service:', error);
+  }
 };
 
 app
