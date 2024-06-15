@@ -1,9 +1,9 @@
 const path = require('path');
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
-const { libraryLoad } = require('./metadataService');
+const { libraryLoad } = require('./services');
 
-const PROTO_PATH = path.join(__dirname, '..', 'proto', 'metadata.proto');
+const PROTO_PATH = path.join(__dirname, 'proto', 'metadata.proto');
 
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
   keepCase: true,
@@ -29,14 +29,27 @@ server.addService(metadataProto.MetadataService.service, {
   },
 });
 
+// const startGrpcServer = () => {
+//   const grpcServerAddress = process.env.GRPC_SERVER || 'localhost:50051';
+//   server.bindAsync(grpcServerAddress, grpc.ServerCredentials.createInsecure(), (err, port) => {
+//     if (err) {
+//       console.error('Error starting gRPC server:', err);
+//       return;
+//     }
+//     console.log(`gRPC server running at ${grpcServerAddress}`);
+//     server.start();
+//   });
+// };
+
+// // 启动 gRPC 服务器
 const startGrpcServer = () => {
-  const grpcServerAddress = process.env.GRPC_SERVER || 'localhost:50051';
-  server.bindAsync(grpcServerAddress, grpc.ServerCredentials.createInsecure(), (err, port) => {
+  const PORT = process.env.GRPC_PORT || 50054; // 使用新的端口号
+  server.bindAsync(`0.0.0.0:${PORT}`, grpc.ServerCredentials.createInsecure(), (err, port) => {
     if (err) {
       console.error('Error starting gRPC server:', err);
       return;
     }
-    console.log(`gRPC server running at ${grpcServerAddress}`);
+    console.log(`gRPC server running on port ${PORT}`);
     server.start();
   });
 };

@@ -6,6 +6,9 @@ const bodyParser = require('koa-bodyparser');
 const authRouter = require('./routes/apiRoutes');
 const registerRouter = require('./routes/serviceRegister'); // 添加这一行
 
+const { startGrpcServer } = require('./grpcServer');
+const kafkaClient = require('./kafkaClient');
+
 const app = new Koa();
 
 mongoose.connect(process.env.MONGODB_URI, {
@@ -25,5 +28,30 @@ app
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Gateway Service is running on port ${PORT}`);
+  startGrpcServer();
+
+  // Kafka 消息生产者示例
+  kafkaClient.producer.on('ready', () => {
+    console.log('Kafka Producer is ready.');
+    kafkaClient.producer.send([
+      { topic: 'gateway-topic', messages: JSON.stringify({ msg: 'Hello Kafka' }) }
+    ], (err, data) => {
+      if (err) {
+        console.error('Kafka Producer send error:', err);
+      } else {
+        console.log('Kafka message sent:', data);
+      }
+    });
+  });
+
+  // Kafka 消息消费者示例
+  kafkaClient.consumer.on('message', (message) => {
+    console.log('Kafka Consumer message:', message.value);
+  });
+
+  kafkaClient.consumer.on('error', (err) => {
+    console.error('Kafka Consumer error:', err);
+  });
+  
 });
 

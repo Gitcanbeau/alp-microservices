@@ -19,7 +19,7 @@ function myMethod(call, callback) {
 }
 
 // 启动 gRPC 服务器
-function startServer() {
+function startGrpcServer() {
     const server = new grpc.Server();
     server.addService(gatewayService.service, { myMethod: myMethod });
     server.bindAsync('0.0.0.0:50051', grpc.ServerCredentials.createInsecure(), (err, port) => {
@@ -32,5 +32,6 @@ function startServer() {
     });
 }
 
-startServer();
+module.exports = { startGrpcServer };
+// startGrpcServer();
 

@@ -8,6 +8,10 @@ const router = require('./routes/routes');
 const requestFromGateWayRouter = require('./routes/requestFromGateWay'); // 引入 users 路由
 
 
+const { startGrpcServer } = require('./grpcServer');
+const kafkaClient = require('./kafkaClient');
+
+
 // 是否有必要保留 routes.js ？
 // 保留 routes.js:
 // 保留 routes.js 文件有助于将所有路由配置集中到一个文件中，使 index.js 文件更加简洁。
@@ -77,6 +81,32 @@ const PORT = process.env.PORT || 35706;
 app.listen(PORT, () => {
   console.log(`Resource Service is running on port ${PORT}`);
   registerService();
+
+  startGrpcServer();
+
+  // Kafka 消息生产者示例
+  kafkaClient.producer.on('ready', () => {
+    console.log('Kafka Producer is ready.');
+    kafkaClient.producer.send([
+      { topic: 'resource-topic', messages: JSON.stringify({ msg: 'Resource Service Hello Kafka' }) }
+    ], (err, data) => {
+      if (err) {
+        console.error('Kafka Producer send error:', err);
+      } else {
+        console.log('Kafka message sent:', data);
+      }
+    });
+  });
+
+  // Kafka 消息消费者示例
+  kafkaClient.consumer.on('message', (message) => {
+    console.log('Kafka Consumer message:', message.value);
+  });
+
+  kafkaClient.consumer.on('error', (err) => {
+    console.error('Kafka Consumer error:', err);
+  });
+  
 });
 
 

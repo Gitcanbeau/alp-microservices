@@ -3,13 +3,14 @@ syntax = "proto3";
 package metadata;
 
 service MetadataService {
-  rpc LoadLibrary (LoadLibraryRequest) returns (LoadLibraryResponse) {}
+    rpc LoadLibrary (LoadLibraryRequest) returns (LoadLibraryResponse);
 }
 
 message LoadLibraryRequest {
-  string path = 1;
+    string path = 1;
 }
 
 message LoadLibraryResponse {
-  string message = 1;
+    string message = 1;
 }
+

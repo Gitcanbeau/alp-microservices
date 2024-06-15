@@ -29,3 +29,14 @@ consumer.on('error', function(err) {
 
 module.exports = { producer, consumer };
 
+// 第一种写法：
+
+// 功能：
+// 创建了生产者和消费者。
+// 消费者订阅了特定的主题（stream-topic）。
+// 可以同时发送和接收 Kafka 消息。
+// 适用场景：
+// 当一个微服务需要同时发送和接收 Kafka 消息时使用。
+// 例如，ytm-stream 服务可能需要从其他服务接收消息并处理，同时需要将处理结果发送出去。
+
+

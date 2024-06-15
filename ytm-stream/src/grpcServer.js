@@ -16,10 +16,11 @@ function myMethod(call, callback) {
     callback(null, { message: 'Hello ' + call.request.name });
 }
 
-function startServer() {
+function startGrpcServer() {
     const server = new grpc.Server();
     server.addService(streamService.service, { myMethod: myMethod });
-    server.bindAsync('0.0.0.0:50053', grpc.ServerCredentials.createInsecure(), (err, port) => {
+    const PORT = process.env.GRPC_PORT || 50053; // 使用新的端口号
+    server.bindAsync(`0.0.0.0:${PORT}`, grpc.ServerCredentials.createInsecure(), (err, port) => {
         if (err) {
             console.error('Failed to bind server:', err);
         } else {
@@ -29,6 +30,7 @@ function startServer() {
     });
 }
 
-startServer();
+module.exports = { startGrpcServer };
+// startGrpcServer();
 
 
